@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>FieldService WebApp</title>
+  <title>Fotodokumentation WebApp</title>
   <meta name="theme-color" content="#1e4ea8" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -89,6 +89,10 @@
     }
     .field textarea { min-height: 120px; resize: vertical; }
     .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--primary-2); box-shadow: 0 0 0 4px rgba(44, 101, 206, .10); }
+    .date-input { max-width: 100%; }
+    @supports (-webkit-touch-callout: none) {
+      .date-input { width: 100%; min-width: 0; }
+    }
     .checks { display: grid; gap: 10px; }
     .check { display: flex; align-items: center; gap: 10px; font-size: 15px; }
     .check input { width: 18px; height: 18px; accent-color: var(--primary); }
@@ -186,9 +190,9 @@
   <div class="app">
     <section class="hero">
       <div class="brand"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPCEtLSBDcmVhdG9yOiBDb3JlbERSQVcgWDYgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iMTg1LjYwNW1tIiBoZWlnaHQ9IjE4Ljc4NTRtbSIgdmVyc2lvbj0iMS4xIiBzdHlsZT0ic2hhcGUtcmVuZGVyaW5nOmdlb21ldHJpY1ByZWNpc2lvbjsgdGV4dC1yZW5kZXJpbmc6Z2VvbWV0cmljUHJlY2lzaW9uOyBpbWFnZS1yZW5kZXJpbmc6b3B0aW1pemVRdWFsaXR5OyBmaWxsLXJ1bGU6ZXZlbm9kZDsgY2xpcC1ydWxlOmV2ZW5vZGQiCnZpZXdCb3g9IjAgMCAxOTUyNSAxOTc2IgogeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogPGRlZnM+CiAgPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KICAgPCFbQ0RBVEFbCiAgICAuZmlsMCB7ZmlsbDpub25lfQogICAgLmZpbDEge2ZpbGw6IzJCMkEyOTtmaWxsLXJ1bGU6bm9uemVyb30KICAgIC5maWwyIHtmaWxsOiMxQjRFOUI7ZmlsbC1ydWxlOm5vbnplcm99CiAgIF1dPgogIDwvc3R5bGU+CiA8L2RlZnM+CiA8ZyBpZD0iRWJlbmVfeDAwMjBfMSI+CiAgPG1ldGFkYXRhIGlkPSJDb3JlbENvcnBJRF8wQ29yZWwtTGF5ZXIiLz4KICA8cmVjdCBjbGFzcz0iZmlsMCIgd2lkdGg9IjE5NTI1IiBoZWlnaHQ9IjE5NzYiLz4KICA8cGF0aCBjbGFzcz0iZmlsMSIgZD0iTTc2NzQgMTYwNGwwIC05MzggLTM0NSAwIDAgLTMzNSAxMDc2IDAgMCAzMzUgLTM0NSAwIDAgOTM4IC0zODUgMHptLTE1NzUgMGwwIC0xMjczIDU3NCAwYzE4MCwwIDMwOCwyOSAzODUsODYgNzcsNTcgMTE1LDE1MCAxMTUsMjgxIDAsNzggLTE2LDE0MiAtNDcsMTk0IC0zMSw1MSAtODAsOTIgLTE0NiwxMjIgNjcsMTUgMTE2LDQ1IDE0Niw4OSAzMCw0NCA1MywxMDkgNTgsMTk0bDE5IDMwOSAtMzczIDAgLTE1IC0yNjBjLTQsLTY1IC0yMSwtMTEyIC00NiwtMTM5IC0yNCwtMjcgLTY2LC00MCAtMTI3LC00MGwtMTYzIDAgMCA0MzkgLTM4MCAwem0zODAgLTcyNmwxNzUgMGM2MSwwIDEwNCwtOSAxMjcsLTI3IDIzLC0xNyAzNSwtNDggMzUsLTkyIDAsLTQ1IC0xMiwtNzYgLTM1LC05NCAtMjMsLTE4IC02OSwtMjcgLTEzNywtMjdsLTE2NSAwIDAgMjM5em0tMTYxNSAtMjQzbDAgLTMwNCAxMDQyIDAgMCAzMDUgLTEwNDIgMHptMCA5NjhsMCAtNzk4IDkzMyAwIDAgMjkyIC01NDEgMCAwIDE5NiA2NTAgMCAwIDMxMCAtMTA0MiAwem0tMTM1NiAwbDAgLTEyNzMgMzg1IDAgMCA0MzIgMzU5IDAgMCAtNDMyIDM4NSAwIDAgMTI3MyAtMzg1IDAgMCAtNDk0IC0zNTkgMCAwIDQ5NCAtMzg1IDB6bS01MjcgLTUwMmwzNjUgMGMtMTEsMTU5IC02NiwyODIgLTE2NywzNzAgLTEwMCw4OCAtMjM3LDEzMiAtNDA4LDEzMiAtMTkyLDAgLTM0NCwtNTcgLTQ1NCwtMTcwIC0xMTAsLTExMyAtMTY1LC0yNjkgLTE2NSwtNDY2IDAsLTE5NyA1NCwtMzUyIDE2NCwtNDY2IDEwOSwtMTE0IDI1OCwtMTcxIDQ0NiwtMTcxIDE3NCwwIDMxMCw0MiA0MTAsMTI3IDk5LDg1IDE1NSwyMDUgMTY3LDM2M2wtMzY5IDBjLTYsLTYyIC0yNSwtNzYgLTU5LC0xMDcgLTM0LC0zMSAtODIsLTQ3IC0xNDQsLTQ3IC03NiwwIC0xMzIsMjggLTE3MCw4MyAtMzgsNTYgLTU3LDEwNyAtNTcsMjE5IDAsMTEwIDIwLDE2MCA2MCwyMTcgNDAsNTYgOTksODUgMTc3LDg1IDYwLDAgMTA3LC0xNyAxNDIsLTUyIDM1LC0zNCA1NiwtNTEgNjEsLTExNXptLTEwMTIgLTc3MWwwIDEyNzMgLTM5MiAwIDAgLTEyNzMgMzkyIDB6bS0xNjMxIDEyNzNsMCAtNzk4IDkzMyAwIDAgMjkyIC01NDEgMCAwIDE5NiA2NTAgMCAwIDMxMCAtMTA0MiAweiIvPgogIDxwb2x5Z29uIGNsYXNzPSJmaWwyIiBwb2ludHM9IjMzOCw2MzYgMzM4LDMzMSAxMzgxLDMzMSAxMzgxLDYzNiAiLz4KICA8cGF0aCBjbGFzcz0iZmlsMiIgZD0iTTg3ODkgMTYwNGwwIC0xMjczIDE5MSAwIDAgNTIyIDcyNyAwIDAgLTUyMiAxOTEgMCAwIDEyNzMgLTE5MSAwIDAgLTU5NyAtNzI3IDAgMCA1OTcgLTE5MSAwem05MzUzIDBsMCAtMTI3MyAxODkgMCAwIDYxNCA2NzQgLTYxNCAyNTMgMCAtNTcyIDUxMCA1ODggNzYzIC0yMzYgMCAtNDkwIC02MzkgLTIxNyAxOTMgMCA0NDYgLTE4OSAwem0tNDU4IDBsMCAtMTI3MyAxOTEgMCAwIDEyNzMgLTE5MSAwem0tMTExNiAwbDAgLTEyNzMgMTkzIDAgMCAxMTEyIDY5NyAwIDAgMTYxIC04OTAgMHptLTEzMzMgLTUxNGwxIC03NTkgMTkxIDAgLTEgNzYwYzAsMTE5IDI5LDIwNiA4NywyNjMgNTgsNTYgMTQ4LDg1IDI2OSw4NSAxMjAsMCAyMTAsLTI5IDI2OSwtODYgNTksLTU4IDg5LC0xNDUgODksLTI2MWwxIC03NjAgMTkxIDAgLTEgNzU5YzAsMTY5IC00OCwyOTcgLTE0NSwzODQgLTk3LDg3IC0yMzksMTMwIC00MjcsMTMwIC0xNzUsMCAtMzA2LC00MyAtMzk0LC0xMjkgLTg3LC04NiAtMTMxLC0yMTQgLTEzMSwtMzg2em0tMTMzNSA1MTRsNTIwIC0xMjczIDIxMCAwIDUyMiAxMjczIC0yMDYgMCAtMTQ4IC0zODEgLTU1MSAwIC0xNDkgMzgxIC0xOTcgMHptNDA1IC01MjlsNDM3IDAgLTIxNyAtNTYxIC0yMjAgNTYxem0tMTU4MSAtNzQ0bDU0MyAwYzg4LDAgMTUzLDQgMTk0LDEwIDQyLDcgNzksMTkgMTEyLDM1IDU5LDMwIDEwNCw3MSAxMzUsMTIzIDMxLDUzIDQ2LDExNCA0NiwxODUgMCw2OCAtMTYsMTI3IC00OCwxNzYgLTMyLDQ5IC04MSw4NyAtMTQ0LDExNSA1NSwxNCA5MywzNyAxMTcsNzAgMjMsMzMgMzcsODkgNDMsMTY3bDMwIDM5MyAtMTk2IDAgLTEyIC0xNzUgLTEyIC0xNjZjLTYsLTg1IC0yNiwtMTQwIC02MCwtMTY2IC0zNCwtMjUgLTExOCwtMzggLTI1MiwtMzhsLTMwOCAwIDAgNTQ1IC0xODkgMCAwIC0xMjczem0xODcgMTQ5bDAgNDMyIDMyNSAwYzExOCwwIDIwMCwtMTcgMjQ5LC01MiA0OCwtMzUgNzMsLTkyIDczLC0xNzMgMCwtNzYgLTIzLC0xMjkgLTY5LC0xNjAgLTQ2LC0zMSAtMTMwLC00NyAtMjUzLC00N2wtMzI1IDB6bS0xNTM5IDExMjRsMCAtMTI3MyA1MzQgMGMxOTUsMCAzNDQsNTMgNDQ4LDE1OSAxMDQsMTA2IDE1NiwyNTkgMTU2LDQ1OSAwLDIwNyAtNTQsMzY4IC0xNjEsNDgzIC0xMDcsMTE1IC0yNTcsMTcyIC00NTAsMTcybC01MjcgMHptNTE4IC0xMTI2bC0zMjcgMCAwIDk3MCAzMjcgMGMxNDAsMCAyNDYsLTQxIDMxOCwtMTI0IDcyLC04MyAxMDcsLTIwNSAxMDcsLTM2NyAwLC0xNTUgLTM2LC0yNzQgLTEwOSwtMzU2IC03MywtODIgLTE3OCwtMTI0IC0zMTYsLTEyNHptLTExNDkgMTEyNmwtMTkxIDAgMCAtNTEwIC01MjAgLTc2MyAyMzkgMCAzNzUgNjAyIDM3MiAtNjAyIDIyNCAwIC00OTkgNzUxIDAgNTIyeiIvPgogPC9nPgo8L3N2Zz4K" alt="Eichert Hydraulik" /></div>
-      <h1>FieldService als WebApp</h1>
-      <p>Servicebericht erfassen, Fotos aufnehmen oder aus der Galerie wählen, unterschreiben und anschließend als PDF herunterladen oder über das Teilen-Menü weitergeben.</p>
-      <div style="margin-top:12px"><span class="pill">PDF-Layout an Vorlage angepasst</span></div>
+      <h1>Fotodokumentations WebApp</h1>
+      <p>für Aufträge</p>
+      <!-- <div style="margin-top:12px"><span class="pill">für Aufträge</span></div> -->
     </section>
 
     <div id="status" class="status info"></div>
@@ -206,7 +210,7 @@
         <h2>Auftragsdaten</h2>
         <div class="grid two">
           <div class="field"><label for="sReport">S-Bericht Nr.*</label><input id="sReport" placeholder="SB-2026-001" /></div>
-          <div class="field"><label for="date">Datum*</label><input id="date" type="date" /></div>
+          <div class="field"><label for="date">Datum*</label><input id="date" class="date-input" type="text" inputmode="numeric" placeholder="TT.MM.JJJJ" maxlength="10" /></div>
         </div>
         <div class="grid two">
           <div class="field"><label for="deliveryNote">Lieferschein</label><input id="deliveryNote" /></div>
@@ -314,7 +318,10 @@ let renderedSignature = null;
 const $ = (id) => document.getElementById(id);
 const statusEl = $('status');
 const loadingEl = $('loading');
-$('date').valueAsDate = new Date();
+const dateInput = $('date');
+
+dateInput.value = formatDateDisplay(new Date());
+dateInput.addEventListener('input', handleDateInput);
 
 function showStatus(message, type = 'info') {
   statusEl.textContent = message;
@@ -323,6 +330,68 @@ function showStatus(message, type = 'info') {
 function hideStatus() { statusEl.className = 'status info'; statusEl.textContent = ''; }
 function showLoading(text = 'PDF wird erstellt…') { loadingEl.querySelector('.loading-box').textContent = text; loadingEl.classList.add('show'); }
 function hideLoading() { loadingEl.classList.remove('show'); }
+
+function formatDateDisplay(date) {
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = date.getFullYear();
+  return `${d}.${m}.${y}`;
+}
+
+function handleDateInput(e) {
+  const digits = e.target.value.replace(/\D/g, '').slice(0, 8);
+  let formatted = digits;
+  if (digits.length > 2) formatted = `${digits.slice(0, 2)}.${digits.slice(2)}`;
+  if (digits.length > 4) formatted = `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4)}`;
+  e.target.value = formatted;
+}
+
+function loadImageElement(dataUrl) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = dataUrl;
+  });
+}
+
+async function normalizeImageFile(file) {
+  try {
+    const maxDim = 2200;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    let source;
+    let width;
+    let height;
+
+    if ('createImageBitmap' in window) {
+      try {
+        source = await createImageBitmap(file, { imageOrientation: 'from-image' });
+        width = source.width;
+        height = source.height;
+      } catch (e) {}
+    }
+
+    if (!source) {
+      const dataUrl = await fileToDataUrl(file);
+      source = await loadImageElement(dataUrl);
+      width = source.naturalWidth || source.width;
+      height = source.naturalHeight || source.height;
+    }
+
+    const scale = Math.min(1, maxDim / Math.max(width, height));
+    canvas.width = Math.max(1, Math.round(width * scale));
+    canvas.height = Math.max(1, Math.round(height * scale));
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+    if (source && typeof source.close === 'function') source.close();
+    return canvas.toDataURL('image/jpeg', 0.92);
+  } catch (error) {
+    console.error('Bild-Normalisierung fehlgeschlagen', error);
+    return await fileToDataUrl(file);
+  }
+}
 
 function validateStep1() {
   if (!$('sReport').value.trim() || !$('date').value || !$('customer').value.trim() || !$('technician').value.trim()) {
@@ -401,7 +470,7 @@ async function onPhotoSelected(event, key) {
   const file = event.target.files?.[0];
   if (!file) return;
   try {
-    const dataUrl = await fileToDataUrl(file);
+    const dataUrl = await normalizeImageFile(file);
     setPhoto(key, dataUrl);
     hideStatus();
   } catch (err) {

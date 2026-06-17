@@ -177,6 +177,103 @@
     .loading.show { display: flex; }
     .loading-box { background: #fff; padding: 18px 20px; border-radius: 16px; box-shadow: var(--shadow); font-weight: 700; }
     .fine { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+
+    /* Datenschutz-/DSGVO-Hinweise */
+    body.privacy-locked { overflow: hidden; }
+    .privacy-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(15, 23, 42, .62);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .privacy-overlay.hide { display: none; }
+    .privacy-modal {
+      width: min(980px, 100%);
+      max-height: 92vh;
+      overflow: hidden;
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 22px 70px rgba(15, 23, 42, .28);
+      border: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+    .privacy-modal-head {
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, #f7faff);
+    }
+    .privacy-modal-head h2 { margin: 0 0 8px; font-size: 22px; }
+    .privacy-modal-head p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .privacy-modal-body { padding: 16px 22px; overflow: auto; }
+    .privacy-block {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      margin-bottom: 12px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .privacy-block summary {
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 800;
+      background: #f8fbff;
+    }
+    .privacy-content {
+      padding: 0 16px 16px;
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .privacy-content h3 { margin: 16px 0 8px; font-size: 15px; }
+    .privacy-content ul { margin: 8px 0 8px 20px; padding: 0; }
+    .privacy-content li { margin: 4px 0; }
+    .privacy-note {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .privacy-confirm {
+      border-top: 1px solid var(--line);
+      padding: 14px 22px 18px;
+      background: #fff;
+    }
+    .privacy-confirm label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 14px;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .privacy-confirm input { margin-top: 2px; width: 18px; height: 18px; accent-color: var(--primary); flex: 0 0 auto; }
+    .privacy-confirm .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .legal-footer {
+      text-align: center;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .legal-footer button {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 800;
+      cursor: pointer;
+      padding: 6px 8px;
+    }
+    .legal-meta { color: var(--muted); font-size: 12px; margin-top: 10px; }
+
     @media (max-width: 700px) {
       .grid.two, .photos, .thumbs, .stepper { grid-template-columns: 1fr; }
       .stepper { position: static; }
@@ -185,7 +282,113 @@
     }
   </style>
 </head>
-<body>
+<body class="privacy-locked">
+
+  <div class="privacy-overlay" id="privacyOverlay" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <div class="privacy-modal">
+      <div class="privacy-modal-head">
+        <h2 id="privacyTitle">Datenschutz & Nutzungshinweise</h2>
+        <p>Vor der Nutzung dieser Servicebericht-WebApp müssen die Datenschutzhinweise, die Mitarbeiter-Richtlinie und die Verarbeitungstätigkeit gelesen und bestätigt werden.</p>
+      </div>
+      <div class="privacy-modal-body">
+        <div class="privacy-note"><strong>Hinweis:</strong> Dieser Text ist ein technischer und organisatorischer Entwurf für diese WebApp. Firmenname, Anschrift, Ansprechpartner und interne Fristen müssen vor produktiver Nutzung ergänzt bzw. geprüft werden.</div>
+
+        <details class="privacy-block" open>
+          <summary>1. Datenschutzerklärung für die Servicebericht-WebApp</summary>
+          <div class="privacy-content">
+            <h3>Verantwortlicher</h3>
+            <p><strong>[Firmenname]</strong><br>[Anschrift]<br>[E-Mail-Adresse]<br>[Telefonnummer]</p>
+            <h3>Zweck der Verarbeitung</h3>
+            <p>Die WebApp dient der Erstellung und Dokumentation von Service- und Wartungsberichten. Die eingegebenen Daten werden verwendet, um einen PDF-Servicebericht zu erzeugen und diesen anschließend durch den Nutzer herunterzuladen oder über die Teilen-/E-Mail-Funktion des Endgeräts weiterzugeben.</p>
+            <h3>Verarbeitete Daten</h3>
+            <ul>
+              <li>S-Bericht-Nummer, Datum, Lieferschein, Kunden-Nr.</li>
+              <li>Kundenname, Maschinen-/Inventarnummer, Betriebsstunden</li>
+              <li>Ausfallursache, Servicebericht, Angaben zum defekten Bauteil</li>
+              <li>Fotos zur Auftragsdokumentation</li>
+              <li>Name des Servicetechnikers und Unterschrift des Kunden</li>
+              <li>E-Mail-Adresse des Sachbearbeiters, sofern eingetragen</li>
+            </ul>
+            <h3>Rechtsgrundlagen</h3>
+            <p>Die Verarbeitung erfolgt zur Durchführung und Dokumentation von Serviceleistungen. Rechtsgrundlagen sind insbesondere Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) und Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an Nachweis, Qualitätssicherung und ordnungsgemäßer Auftragsdokumentation).</p>
+            <h3>Art der Verarbeitung</h3>
+            <p>Die WebApp verarbeitet die Daten lokal im Browser. Es findet durch die WebApp keine automatische Übermittlung an einen eigenen Server, keine Datenbank-Speicherung, kein Tracking und keine Analyse statt. Zur PDF-Erstellung wird die Bibliothek jsPDF über ein Content Delivery Network geladen.</p>
+            <h3>Empfänger</h3>
+            <p>Empfänger können interne Sachbearbeiter, zuständige Mitarbeiter und Kunden sein, soweit dies zur Auftragsbearbeitung oder Dokumentation erforderlich ist. Der eigentliche Versand erfolgt durch den Nutzer über das E-Mail-Programm oder die Teilen-Funktion des Endgeräts.</p>
+            <h3>Speicherdauer</h3>
+            <p>Die WebApp speichert Eingaben nicht dauerhaft. Nach Erstellung kann das PDF jedoch auf dem Endgerät gespeichert werden. Die Aufbewahrung und Löschung dieser PDF-Dateien richtet sich nach internen Vorgaben und gesetzlichen Aufbewahrungsfristen.</p>
+            <h3>Betroffenenrechte</h3>
+            <p>Betroffene Personen haben nach Maßgabe der DSGVO Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch sowie Beschwerde bei einer Datenschutzaufsichtsbehörde.</p>
+          </div>
+        </details>
+
+        <details class="privacy-block">
+          <summary>2. Mitarbeiter-Richtlinie zur Nutzung</summary>
+          <div class="privacy-content">
+            <h3>Grundregeln</h3>
+            <ul>
+              <li>Die WebApp darf nur für dienstliche Service- und Wartungsaufträge verwendet werden.</li>
+              <li>Es dürfen nur Daten eingetragen werden, die für den jeweiligen Auftrag notwendig sind.</li>
+              <li>Fotos dürfen nur auftragsrelevante Inhalte zeigen. Personen, private Gegenstände, Kennzeichen oder andere unnötige personenbezogene Inhalte sind nach Möglichkeit zu vermeiden.</li>
+              <li>PDF-Serviceberichte sind vertraulich zu behandeln und nur an berechtigte Empfänger zu senden.</li>
+              <li>Erzeugte PDFs sollen nach erfolgreicher Übermittlung vom Endgerät gelöscht werden, sofern keine betriebliche Aufbewahrung auf dem Gerät vorgesehen ist.</li>
+              <li>Die Nutzung auf privaten Geräten ist nur zulässig, wenn dies vom Unternehmen ausdrücklich erlaubt wurde.</li>
+              <li>Bei Verlust eines Geräts, Fehlversand oder sonstigen Datenschutzvorfällen ist unverzüglich die zuständige interne Stelle zu informieren.</li>
+            </ul>
+            <h3>Unterschriften</h3>
+            <p>Die Kundenunterschrift darf nur zur Bestätigung und Dokumentation des jeweiligen Serviceberichts verwendet werden.</p>
+            <h3>E-Mail-Versand</h3>
+            <p>Vor dem Versand ist zu prüfen, ob die Empfängeradresse korrekt ist und ob der Bericht an diesen Empfänger gesendet werden darf.</p>
+          </div>
+        </details>
+
+        <details class="privacy-block">
+          <summary>3. Verarbeitungstätigkeit nach Art. 30 DSGVO</summary>
+          <div class="privacy-content">
+            <h3>Name der Verarbeitungstätigkeit</h3>
+            <p>Erstellung und Versand von Service- und Wartungsberichten über die Servicebericht-WebApp.</p>
+            <h3>Zwecke</h3>
+            <ul>
+              <li>Dokumentation durchgeführter Serviceleistungen</li>
+              <li>Nachweis gegenüber Kunden und internen Stellen</li>
+              <li>Qualitätssicherung und Reklamationsbearbeitung</li>
+            </ul>
+            <h3>Kategorien betroffener Personen</h3>
+            <ul>
+              <li>Kunden und Ansprechpartner</li>
+              <li>Mitarbeiter / Servicetechniker</li>
+              <li>gegebenenfalls zufällig auf Fotos erkennbare Personen</li>
+            </ul>
+            <h3>Kategorien personenbezogener Daten</h3>
+            <ul>
+              <li>Kontakt- und Auftragsdaten</li>
+              <li>Technische Auftrags- und Maschinendaten</li>
+              <li>Fotoaufnahmen zur Dokumentation</li>
+              <li>Unterschrift des Kunden</li>
+              <li>Name des Servicetechnikers</li>
+            </ul>
+            <h3>Empfänger</h3>
+            <p>Interne Sachbearbeiter, zuständige Mitarbeiter, Kunden sowie eingesetzte E-Mail-/Endgeräte-Dienste im Rahmen des durch den Nutzer ausgelösten Versands.</p>
+            <h3>Löschung / Aufbewahrung</h3>
+            <p>Die WebApp selbst speichert die Eingaben nicht dauerhaft. Erzeugte PDFs werden gemäß interner Lösch- und Aufbewahrungsregeln behandelt. Temporär auf Endgeräten gespeicherte Dateien sollen gelöscht werden, sobald sie nicht mehr benötigt werden.</p>
+            <h3>Technische und organisatorische Maßnahmen</h3>
+            <ul>
+              <li>lokale Verarbeitung im Browser</li>
+              <li>keine eigene Server- oder Datenbankspeicherung durch die WebApp</li>
+              <li>keine Analyse-, Werbe- oder Trackingdienste</li>
+              <li>Beschränkung auf erforderliche Datenfelder</li>
+              <li>organisatorische Vorgaben für Fotos, Versand und Löschung</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+      <div class="privacy-confirm">
+        <label><input type="checkbox" id="privacyAcceptCheck"> <span>Ich habe die Datenschutzhinweise, die Mitarbeiter-Richtlinie und die Verarbeitungstätigkeit gelesen und werde die WebApp entsprechend den Vorgaben nutzen.</span></label>
+        <button class="btn primary" id="privacyAcceptBtn" disabled>Bestätigen und WebApp nutzen</button>
+      </div>
+    </div>
+  </div>
+
   <div class="loading" id="loading"><div class="loading-box">PDF wird erstellt…</div></div>
   <div class="app">
     <section class="hero">
@@ -296,6 +499,12 @@
         </div>
       </div>
     </section>
+
+
+    <div class="legal-footer">
+      <button type="button" id="openPrivacyInfo">Datenschutz / Mitarbeiter-Richtlinie / Verarbeitungstätigkeit anzeigen</button>
+      <div class="legal-meta">Stand: 17.06.2026 · Lokale WebApp ohne eigene Server-Speicherung</div>
+    </div>
   </div>
 
 <script>
@@ -319,6 +528,36 @@ const $ = (id) => document.getElementById(id);
 const statusEl = $('status');
 const loadingEl = $('loading');
 const dateInput = $('date');
+
+
+function initPrivacyGate() {
+  const overlay = $('privacyOverlay');
+  const check = $('privacyAcceptCheck');
+  const btn = $('privacyAcceptBtn');
+  const openBtn = $('openPrivacyInfo');
+  if (!overlay || !check || !btn) return;
+
+  const showPrivacy = () => {
+    overlay.classList.remove('hide');
+    document.body.classList.add('privacy-locked');
+  };
+  const hidePrivacy = () => {
+    overlay.classList.add('hide');
+    document.body.classList.remove('privacy-locked');
+  };
+
+  check.addEventListener('change', () => { btn.disabled = !check.checked; });
+  btn.addEventListener('click', () => {
+    if (!check.checked) return;
+    hidePrivacy();
+  });
+  if (openBtn) openBtn.addEventListener('click', () => {
+    check.checked = false;
+    btn.disabled = true;
+    showPrivacy();
+  });
+}
+
 
 dateInput.value = formatDateDisplay(new Date());
 dateInput.addEventListener('input', handleDateInput);
@@ -890,6 +1129,7 @@ async function createPngFromSvgDataUrl(svgDataUrl) {
 }
 
 (async function init() {
+  initPrivacyGate();
   buildPhotoGrid();
   window.logoDataUrl = EMBEDDED_LOGO_DATA_URL;
   window.logoPngDataUrl = await createPngFromSvgDataUrl(EMBEDDED_LOGO_DATA_URL);
